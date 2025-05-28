@@ -39,7 +39,9 @@ ScalarConverter::eType ScalarConverter::getType(const std::string &input)
 		if (input[i] == '.')
 		{
 			dots++;
-			if (dots > 1)
+			if (dots > 1
+				|| i == 0 || i == len - 1
+				|| !std::isdigit(input[i - 1]) || !std::isdigit(input[i + 1]))
 				return (INVALID);
 			i++;
 			continue ;
@@ -61,6 +63,13 @@ ScalarConverter::eType ScalarConverter::getType(const std::string &input)
 
 void ScalarConverter::convert(const std::string &input)
 {
-	(void)input;
-	// eType type = getType(input);
-}
+	eType type = getType(input);
+	if (type == INVALID)
+		return (std::cout << "")
+	ConvertFunc converters[] = {
+		&convertSpecial,
+		&convertChar,
+		&convertInt,
+		&convertFloat,
+		&convertDouble
+	};}

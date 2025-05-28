@@ -14,14 +14,7 @@ class ScalarConverter
 {
 private:
 
-	ScalarConverter();
-	ScalarConverter(const ScalarConverter &other);
-	ScalarConverter &operator=(const ScalarConverter &other);
-	~ScalarConverter();
-
-public:
-
-	enum eType // make it private
+	enum eType
 	{
 		SPECIAL = 0,
 		CHAR    = 1,
@@ -31,6 +24,24 @@ public:
 		INVALID = -1
 	};
 
-	static eType	getType(const std::string &input); // make it private
+	typedef void (*ConvertFunc)(const std::string &);
+
+	static ConvertFunc converters[];
+
+	ScalarConverter();
+	ScalarConverter(const ScalarConverter &other);
+	ScalarConverter &operator=(const ScalarConverter &other);
+	~ScalarConverter();
+
+	static void	convertSpecial(const std::string &input);
+	static void	convertInt(const std::string &input);
+	static void	convertChar(const std::string &input);
+	static void	convertFloat(const std::string &input);
+	static void	convertDouble(const std::string &input);
+
+	static eType	getType(const std::string &input);
+
+public:
+
 	static void convert(const std::string &input);
 };
