@@ -2,6 +2,10 @@
 
 #include <limits>
 #include <iostream>
+#include <iomanip>
+#include <cstdlib>
+#include <cmath>
+#include <cerrno>
 
 # define MIN_INT	std::numeric_limits<int>::min()
 # define MAX_INT	std::numeric_limits<int>::max()
@@ -16,13 +20,26 @@ private:
 
 	enum eType
 	{
-		SPECIAL = 0,
-		CHAR    = 1,
-		INT     = 2,
-		FLOAT   = 3,
-		DOUBLE  = 4,
+		CHAR    = 0,
+		INT     = 1,
+		FLOAT   = 2,
+		DOUBLE  = 3,
+		SPECIAL = 4,
 		INVALID = -1
 	};
+
+	struct results
+	{
+		char	c;
+		int		i;
+		float	f;
+		double	d;
+		char	*cptr;
+		int		*iptr;
+		float	*fptr;
+		double	*dptr;
+	};
+	
 
 	typedef void (*ConvertFunc)(const std::string &);
 
@@ -33,13 +50,15 @@ private:
 	ScalarConverter &operator=(const ScalarConverter &other);
 	~ScalarConverter();
 
-	static void	convertSpecial(const std::string &input);
+	static eType	getType(const std::string &input);
+
 	static void	convertInt(const std::string &input);
 	static void	convertChar(const std::string &input);
 	static void	convertFloat(const std::string &input);
 	static void	convertDouble(const std::string &input);
+	static void	convertSpecial(const std::string &input);
 
-	static eType	getType(const std::string &input);
+	static void	printResults(char *c, int *i, float *f, double *d);
 
 public:
 
