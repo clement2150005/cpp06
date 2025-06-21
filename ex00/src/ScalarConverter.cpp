@@ -1,10 +1,5 @@
 #include "ScalarConverter.hpp"
 
-ScalarConverter::ScalarConverter() {}
-ScalarConverter::ScalarConverter(const ScalarConverter &other) {(void)other;}
-ScalarConverter &ScalarConverter::operator=(const ScalarConverter &other) { (void)other; return (*this); }
-ScalarConverter::~ScalarConverter() {}
-
 ScalarConverter::eType ScalarConverter::getType(const std::string &input)
 {
 	int			i = 0;
