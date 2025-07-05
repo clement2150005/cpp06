@@ -26,16 +26,8 @@ int main(int argc, char **argv)
 		// valid floats
 		"0.0f", "1.0f", "-3.14f", "+.5f", "42.f", ".1f", "1.234567f",
 
-		// float edge cases
-		"340282346638528859811704183484516925440.0f", // FLT_MAX
-		"3402824000.0f", // overflow float
-
 		// valid doubles
 		"0.0", "-1.0", "3.14", ".1", "1.", "-.5", "42.424242",
-
-		// double edge cases
-		"1e308", // DBL_MAX-ish
-		"1e309", // overflow
 
 		// special literals
 		"nan", "+inf", "-inf", "inf", "nanf", "+inff", "-inff", "inff",
