@@ -141,7 +141,6 @@ void	ScalarConverter::convertFloat(const std::string &input)
 {
 	results	r;
 	errno = 0;
-	std::cout << "ok" << std::endl;
 	r.f = strtof(input.c_str(), NULL);
 	if (errno == ERANGE)
 		return (printResults(NULL, NULL, NULL, NULL));
@@ -204,7 +203,6 @@ void	ScalarConverter::convertSpecial(const std::string &input)
 void ScalarConverter::convert(const std::string &input)
 {
 	eType type = getType(input);
-	std::cout << type << std::endl;
 	if (type == INVALID)
 	{
 		printResults(NULL, NULL, NULL, NULL);
