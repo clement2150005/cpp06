@@ -1,0 +1,62 @@
+Here’s the expanded version with more detail for each cast and why it matches its exercise:
+
+---
+
+### **`static_cast`**
+
+* **Definition**: Performs conversions that the compiler knows how to do at compile time. This includes:
+
+  * Numeric type conversions (`char` ↔ `int` ↔ `float` ↔ `double`).
+  * Safe pointer upcasts (`Derived*` → `Base*`).
+  * Calling explicit constructors or conversion operators.
+* **What it does**: Adjusts the *value* to match the target type, possibly with narrowing or widening.
+  Example:
+
+  ```cpp
+  char c = 'A';                 // value = 65 in ASCII
+  int i = static_cast<int>(c);  // i = 65
+  float f = static_cast<float>(i); // f = 65.0f
+  ```
+* **Used in ex00**: You parse a string into one scalar type (like `double`), then you must output it as `char`, `int`, `float`, and `double`. Each conversion is a normal, value-preserving cast, so `static_cast` is the correct choice.
+
+---
+
+### **`reinterpret_cast`**
+
+* **Definition**: Reinterprets the *raw bit pattern* of one type as another type, without changing the underlying bits. It doesn’t do a “conversion,” it just gives you a new way of looking at the same memory. This is inherently unsafe unless you know exactly what you’re doing.
+* **What it does**:
+
+  ```cpp
+  char c = 'A'; // bits: 0100 0001
+  int* p = reinterpret_cast<int*>(&c); // treat those 8 bits as if they were the start of an int
+  ```
+
+  The result is unpredictable, because an `int` expects more bytes than a `char`.
+* **Used in ex01**: You need to convert a `Data*` (a pointer) into a `uintptr_t` (an integer type guaranteed to hold an address) and back. This isn’t about the value of the `Data` object, it’s about the **memory address**. That requires reinterpreting the bits of the pointer as an integer and vice versa — the textbook case for `reinterpret_cast`.
+
+---
+
+### **`dynamic_cast`**
+
+* **Definition**: Safely converts within an inheritance hierarchy when the type might not actually match. It checks at runtime whether the cast is valid, using runtime type information (RTTI).
+
+  * With pointers: returns `nullptr` if the cast fails.
+  * With references: throws `std::bad_cast` if the cast fails.
+* **What it does**:
+
+  ```cpp
+  Base* b = new Derived();
+  Derived* d = dynamic_cast<Derived*>(b); // works, returns pointer
+  Other* o = dynamic_cast<Other*>(b);     // fails, returns nullptr
+  ```
+* **Used in ex02**: You have a `Base*` or `Base&` that might actually point to `A`, `B`, or `C`. You need to identify which one at runtime. That’s exactly what `dynamic_cast` was designed for: safe downcasts in polymorphic hierarchies.
+
+---
+
+So:
+
+* **ex00** → `static_cast` because you’re doing *value conversions*.
+* **ex01** → `reinterpret_cast` because you’re reinterpreting a pointer’s *bits* as an integer and back.
+* **ex02** → `dynamic_cast` because you need *runtime-checked downcasting*.
+
+Want me to also add **`const_cast`** (the fourth cast) so you’ve got the full set in one reference?
